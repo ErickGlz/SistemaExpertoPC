@@ -8,9 +8,6 @@ using SistemaExpertoPC.Services;
 
 namespace SistemaExpertoPC.ViewModels;
 
-/// <summary>
-/// ViewModel de la ventana principal: conecta la interfaz con el motor de inferencia.
-/// </summary>
 public class MainViewModel : INotifyPropertyChanged
 {
     private const string MensajeInicial =
@@ -42,14 +39,12 @@ public class MainViewModel : INotifyPropertyChanged
 
     public ICommand LimpiarCommand { get; }
 
-    /// <summary>Mensaje informativo (inicio, sin selección o sin coincidencias).</summary>
     public string Mensaje
     {
         get => _mensaje;
         private set => SetProperty(ref _mensaje, value);
     }
 
-    /// <summary>Indica si se debe mostrar el mensaje en lugar de los diagnósticos.</summary>
     public bool MostrarMensaje
     {
         get => _mostrarMensaje;
@@ -60,7 +55,6 @@ public class MainViewModel : INotifyPropertyChanged
     {
         Diagnosticos.Clear();
 
-        // 1. Leer los síntomas seleccionados.
         List<string> seleccionados = Sintomas
             .Where(s => s.Seleccionado)
             .Select(s => s.Clave)
@@ -72,7 +66,6 @@ public class MainViewModel : INotifyPropertyChanged
             return;
         }
 
-        // 2. Pedir al motor que evalúe la base de conocimientos.
         List<Diagnostico> resultados = _motor.Evaluar(seleccionados);
 
         if (resultados.Count == 0)
@@ -81,7 +74,6 @@ public class MainViewModel : INotifyPropertyChanged
             return;
         }
 
-        // 3. Mostrar los diagnósticos encontrados.
         foreach (Diagnostico diagnostico in resultados)
             Diagnosticos.Add(diagnostico);
 

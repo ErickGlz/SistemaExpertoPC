@@ -81,7 +81,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Encabezado -->
         <Border Grid.Row="0" Background="{StaticResource AzulBrush}" Padding="24,16">
             <StackPanel>
                 <TextBlock Text="Sistema Experto de Diagnóstico de PC"
@@ -91,7 +90,6 @@
             </StackPanel>
         </Border>
 
-        <!-- Contenido -->
         <Grid Grid.Row="1" Margin="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="340" MinWidth="280" />
@@ -99,7 +97,6 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Panel de síntomas -->
             <Border Grid.Column="0" Style="{StaticResource Tarjeta}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -135,7 +132,6 @@
                 </Grid>
             </Border>
 
-            <!-- Panel de resultados -->
             <Border Grid.Column="2" Style="{StaticResource Tarjeta}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -150,7 +146,6 @@
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
 
-                            <!-- Mensaje informativo -->
                             <Border Background="{StaticResource AzulClaroBrush}"
                                     BorderBrush="{StaticResource AzulBrush}" BorderThickness="1"
                                     CornerRadius="6" Padding="14"
@@ -158,7 +153,6 @@
                                 <TextBlock Text="{Binding Mensaje}" Style="{StaticResource TextoNormal}" />
                             </Border>
 
-                            <!-- Diagnósticos -->
                             <ItemsControl ItemsSource="{Binding Diagnosticos}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -202,7 +196,6 @@
             </Border>
         </Grid>
 
-        <!-- Pie -->
         <Border Grid.Row="2" Background="#E4E8EE" Padding="20,8">
             <TextBlock Style="{StaticResource TextoNormal}" FontSize="12"
                        Text="Los diagnósticos son orientativos y no confirman una falla física. Ante cualquier duda, consulte a un técnico." />

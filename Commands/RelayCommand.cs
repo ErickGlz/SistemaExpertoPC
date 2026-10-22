@@ -2,9 +2,7 @@ using System.Windows.Input;
 
 namespace SistemaExpertoPC.Commands;
 
-/// <summary>
-/// Implementación sencilla de ICommand para conectar botones con métodos del ViewModel.
-/// </summary>
+
 public class RelayCommand : ICommand
 {
     private readonly Action<object?> _execute;

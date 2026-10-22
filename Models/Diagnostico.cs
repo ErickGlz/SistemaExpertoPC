@@ -1,9 +1,6 @@
 namespace SistemaExpertoPC.Models;
 
-/// <summary>
-/// Resultado del motor de inferencia: un problema posible, su explicación,
-/// las recomendaciones y las reglas que lo activaron.
-/// </summary>
+
 public class Diagnostico
 {
     public Diagnostico(

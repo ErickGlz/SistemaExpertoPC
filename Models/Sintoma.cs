@@ -3,10 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace SistemaExpertoPC.Models;
 
-/// <summary>
-/// Claves (identificadores) de los 8 síntomas que reconoce el sistema.
-/// Las reglas y el motor usan estas claves como "hechos".
-/// </summary>
 public static class ClavesSintoma
 {
     public const string NoEnciende = "NoEnciende";
@@ -19,10 +15,8 @@ public static class ClavesSintoma
     public const string ApagaSola = "ApagaSola";
 }
 
-/// <summary>Definición fija de un síntoma: clave, texto completo y etiqueta corta.</summary>
 public record DefinicionSintoma(string Clave, string Texto, string Etiqueta);
 
-/// <summary>Catálogo con todos los síntomas disponibles.</summary>
 public static class CatalogoSintomas
 {
     public static readonly IReadOnlyList<DefinicionSintoma> Todos = new List<DefinicionSintoma>
@@ -37,14 +31,11 @@ public static class CatalogoSintomas
         new(ClavesSintoma.ApagaSola,     "La computadora se apaga sola",                "Se apaga sola"),
     };
 
-    /// <summary>Devuelve la etiqueta corta de un síntoma a partir de su clave.</summary>
     public static string Etiqueta(string clave) =>
         Todos.FirstOrDefault(s => s.Clave == clave)?.Etiqueta ?? clave;
 }
 
-/// <summary>
-/// Síntoma mostrado en la interfaz como una casilla de verificación.
-/// </summary>
+
 public class Sintoma : INotifyPropertyChanged
 {
     private bool _seleccionado;

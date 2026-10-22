@@ -2,11 +2,7 @@ using SistemaExpertoPC.Models;
 
 namespace SistemaExpertoPC.Services;
 
-/// <summary>
-/// Motor de inferencia de un sistema experto clásico basado en reglas.
-/// La base de conocimientos es una lista de objetos <see cref="Regla"/>;
-/// el motor simplemente la recorre y evalúa cada regla contra los hechos.
-/// </summary>
+
 public class MotorInferencia
 {
     private readonly List<Regla> _baseConocimientos;
@@ -16,15 +12,11 @@ public class MotorInferencia
         _baseConocimientos = CrearBaseConocimientos();
     }
 
-    /// <summary>Reglas de la base de conocimientos (solo lectura).</summary>
     public IReadOnlyList<Regla> BaseConocimientos => _baseConocimientos;
 
-    /// <summary>
-    /// Evalúa los síntomas seleccionados y devuelve los diagnósticos sin duplicados.
-    /// </summary>
+   
     public List<Diagnostico> Evaluar(IEnumerable<string> sintomasSeleccionados)
     {
-        // 1. Convertir los síntomas en hechos: cada síntoma conocido es verdadero o falso.
         Dictionary<string, bool> hechos = CatalogoSintomas.Todos.ToDictionary(s => s.Clave, _ => false);
         foreach (string clave in sintomasSeleccionados)
         {
@@ -32,11 +24,9 @@ public class MotorInferencia
                 hechos[clave] = true;
         }
 
-        // 2. Recorrer la base de conocimientos y quedarse con las reglas que se cumplen.
         List<Regla> activadas = _baseConocimientos.Where(r => r.SeCumple(hechos)).ToList();
 
-        // 3. Agrupar por problema para no duplicar diagnósticos idénticos,
-        //    y mostrar primero los más específicos (reglas con más condiciones).
+      
         return activadas
             .GroupBy(r => r.Problema)
             .OrderByDescending(g => g.Max(r => r.Condiciones.Count))
@@ -46,7 +36,6 @@ public class MotorInferencia
 
     private static Diagnostico CrearDiagnostico(IGrouping<string, Regla> grupo)
     {
-        // La regla más específica aporta la explicación principal.
         Regla principal = grupo.OrderByDescending(r => r.Condiciones.Count).First();
 
         List<string> recomendaciones = grupo.Select(r => r.Recomendacion).Distinct().ToList();
@@ -55,17 +44,12 @@ public class MotorInferencia
         return new Diagnostico(grupo.Key, principal.Explicacion, recomendaciones, reglas);
     }
 
-    /// <summary>Texto legible de una regla: "R01 - Nombre: SI A Y B ENTONCES problema".</summary>
     private static string DescribirRegla(Regla regla)
     {
         string condiciones = string.Join(" Y ", regla.Condiciones.Select(CatalogoSintomas.Etiqueta));
         return $"{regla.Nombre}: SI {condiciones} ENTONCES {regla.Problema.ToLowerInvariant()}";
     }
 
-    // ------------------------------------------------------------------
-    // BASE DE CONOCIMIENTOS
-    // Para agregar una regla nueva basta con añadir otro "new Regla(...)".
-    // ------------------------------------------------------------------
     private static List<Regla> CrearBaseConocimientos()
     {
         return new List<Regla>
